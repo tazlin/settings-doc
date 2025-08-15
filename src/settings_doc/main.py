@@ -12,7 +12,7 @@ from typing import Final, Iterator
 
 import click
 from jinja2 import Environment, FileSystemLoader, Template, select_autoescape
-from pydantic import BaseModel
+from pydantic import AliasChoices, BaseModel
 from pydantic.fields import FieldInfo
 from pydantic_settings import BaseSettings
 
@@ -50,8 +50,19 @@ def _model_fields_recursive(
         if model_field.validation_alias is not None:
             if isinstance(model_field.validation_alias, str):
                 yield model_field.validation_alias, model_field
+            elif (
+                isinstance(model_field.validation_alias, AliasChoices)
+                and len(model_field.validation_alias.choices) > 0
+                and isinstance(model_field.validation_alias.choices[0], str)
+            ):
+                # Validation alias is an AliasChoices object, which can be used to generate multiple aliases.
+                # The constructor for AliasChoices ensures that the first element is preferred via kwarg "first_choice".
+                yield model_field.validation_alias.choices[0], model_field
             else:
-                LOGGER.error(f"Unsupported validation alias type '{type(model_field.validation_alias)}'.")
+                LOGGER.error(
+                    f"Unsupported validation alias type '{type(model_field.validation_alias)}' in "
+                    f"{cls.__name__}.{field_name}.",
+                )
         elif isclass(model_field.annotation) and issubclass(model_field.annotation, BaseModel):
             # There are nested fields and they can be joined by a delimiter. Generate variable names recursively.
             if issubclass(model_field.annotation, BaseSettings):

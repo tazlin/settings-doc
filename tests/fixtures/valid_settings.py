@@ -64,7 +64,13 @@ class ValidationAliasPathSettings(BaseSettings):
 
 
 class ValidationAliasChoicesSettings(BaseSettings):
-    logging_level: str = Field(..., validation_alias=AliasChoices("logging", "level"))
+    logging_level: str = Field(..., validation_alias=AliasChoices("logging_level", "log_level"))
+
+
+class ValidationAliasChoicesWithAliasPathSettings(BaseSettings):
+    logging_level: str = Field(
+        validation_alias=AliasChoices(AliasPath("logging_level", 0), "log_level"),
+    )
 
 
 class EnvPrefixSettings(BaseSettings):

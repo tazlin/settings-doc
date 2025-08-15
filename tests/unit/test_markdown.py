@@ -23,6 +23,7 @@ from tests.fixtures.valid_settings import (
     SettingsWithSettingsSubModel,
     SettingsWithSettingsSubModelNoPrefixOrDelimiter,
     ValidationAliasChoicesSettings,
+    ValidationAliasChoicesWithAliasPathSettings,
     ValidationAliasPathSettings,
     ValidationAliasSettings,
 )
@@ -36,6 +37,9 @@ class TestMarkdownFormat:
         [
             pytest.param(f"{SETTINGS_MARKDOWN_FIRST_LINE}\n", FullSettings, id="variable name"),
             pytest.param(f"{SETTINGS_MARKDOWN_FIRST_LINE}\n", ValidationAliasSettings, id="validation alias"),
+            pytest.param(
+                f"{SETTINGS_MARKDOWN_FIRST_LINE}\n", ValidationAliasChoicesSettings, id="validation alias with choices"
+            ),
             pytest.param("\n\n*optional*, ", FullSettings, id="optional flag"),
             pytest.param(", default value: `some_value`\n\n", FullSettings, id="default value"),
             pytest.param("\n\nuse fullsettings like this\n\n", FullSettings, id="description"),
@@ -141,7 +145,7 @@ class TestMarkdownFormat:
         "settings_class",
         [
             pytest.param(ValidationAliasPathSettings, id="validation AliasPath"),
-            pytest.param(ValidationAliasChoicesSettings, id="validation AliasChoices"),
+            pytest.param(ValidationAliasChoicesWithAliasPathSettings, id="validation AliasChoices"),
         ],
     )
     def should_log_error_for(

@@ -19,6 +19,7 @@ from tests.fixtures.valid_settings import (
     SettingsWithSettingsSubModel,
     SettingsWithSettingsSubModelNoPrefixOrDelimiter,
     ValidationAliasChoicesSettings,
+    ValidationAliasChoicesWithAliasPathSettings,
     ValidationAliasPathSettings,
     ValidationAliasSettings,
 )
@@ -31,6 +32,9 @@ class TestDotEnvFormat:
         "expected_string, settings_class",
         [
             pytest.param(f"{SETTINGS_ATTR}=\n", ValidationAliasSettings, id="validation alias with required value"),
+            pytest.param(
+                f"{SETTINGS_ATTR}=\n", ValidationAliasChoicesSettings, id="validation alias with first value in choices"
+            ),
             pytest.param(
                 f"{SETTINGS_ATTR}=some_value\n\n", FullSettings, id="variable name with optional default value"
             ),
@@ -90,7 +94,7 @@ class TestDotEnvFormat:
         "settings_class",
         [
             pytest.param(ValidationAliasPathSettings, id="validation AliasPath"),
-            pytest.param(ValidationAliasChoicesSettings, id="validation AliasChoices"),
+            pytest.param(ValidationAliasChoicesWithAliasPathSettings, id="validation AliasChoices"),
         ],
     )
     def should_log_error_for(

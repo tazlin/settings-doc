@@ -5,7 +5,12 @@ from pydantic_settings import BaseSettings
 from pytest_mock import MockerFixture
 
 from settings_doc import OutputFormat, render
-from tests.fixtures.valid_settings import SETTINGS_ATTR, FullSettings, ValidationAliasSettings
+from tests.fixtures.valid_settings import (
+    SETTINGS_ATTR,
+    FullSettings,
+    ValidationAliasChoicesSettings,
+    ValidationAliasSettings,
+)
 from tests.helpers import mock_import_class_path, mock_import_module_path
 
 
@@ -15,6 +20,7 @@ class TestRenderDotEnvFormat:
         "expected_string, settings_class",
         [
             pytest.param(f"{SETTINGS_ATTR}=\n", ValidationAliasSettings, id="validation alias with required value"),
+            pytest.param(f"{SETTINGS_ATTR}=\n", ValidationAliasChoicesSettings, id="validation alias with choices"),
             pytest.param(
                 f"{SETTINGS_ATTR}=some_value\n\n", FullSettings, id="variable name with optional default value"
             ),

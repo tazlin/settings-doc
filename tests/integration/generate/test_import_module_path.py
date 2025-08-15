@@ -22,6 +22,7 @@ from tests.fixtures.valid_settings import (
     SettingsWithSettingsSubModel,
     SettingsWithSettingsSubModelNoPrefixOrDelimiter,
     ValidationAliasChoicesSettings,
+    ValidationAliasChoicesWithAliasPathSettings,
     ValidationAliasPathSettings,
     ValidationAliasSettings,
 )
@@ -50,6 +51,7 @@ class TestImportModulePath:
                     ValidationAliasSettings: None,
                     ValidationAliasPathSettings: None,
                     ValidationAliasChoicesSettings: None,
+                    ValidationAliasChoicesWithAliasPathSettings: None,
                     ExamplesSettings: None,
                     EnvPrefixSettings: None,
                     EnvNestedDelimiterSettings: None,
@@ -73,6 +75,7 @@ class TestImportModulePath:
                     ValidationAliasSettings: None,
                     ValidationAliasPathSettings: None,
                     ValidationAliasChoicesSettings: None,
+                    ValidationAliasChoicesWithAliasPathSettings: None,
                     ExamplesSettings: None,
                     EnvPrefixSettings: None,
                     EnvNestedDelimiterSettings: None,
